@@ -1,0 +1,21 @@
+spring.application.name: core-api
+spring.profiles.active: local-dev
+
+spring:
+  profiles:
+    include:
+      - db
+  web.resources.add-mappings: false
+
+---
+spring.config.activate.on-profile: local
+
+---
+spring.config.activate.on-profile: local-dev
+
+---
+spring.config.activate.on-profile: dev
+
+---
+spring.config.activate.on-profile: live
+
