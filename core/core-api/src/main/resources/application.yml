@@ -5,13 +5,14 @@ spring:
   profiles:
     include:
       - db-core
+      - logger
   web.resources.add-mappings: false
 
 ---
-spring.config.activate.on-profile: local
+spring.config.activate.on-profile: test
 
 ---
-spring.config.activate.on-profile: local-dev
+spring.config.activate.on-profile: local
 
 ---
 spring.config.activate.on-profile: dev
