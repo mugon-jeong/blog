@@ -8,7 +8,8 @@ tasks.getByName("jar") {
 
 dependencies {
     implementation(project(":core:core-domain"))
-    runtimeOnly(project(":storage:db-core"))
     implementation(project(":support:logging"))
+    implementation(project(":support:monitoring"))
+    runtimeOnly(project(":storage:db-core"))
     implementation("org.springframework.boot:spring-boot-starter-web")
 }

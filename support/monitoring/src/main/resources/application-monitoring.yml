@@ -1,0 +1,20 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+
+
+---
+spring.config.activate.on-profile: dev
+
+management:
+  server:
+    port: ${management.server.port}
+
+---
+spring.config.activate.on-profile: live
+
+management:
+  server:
+    port: ${management.server.port}

@@ -6,6 +6,7 @@ spring:
     include:
       - db-core
       - logger
+      - monitoring
   web.resources.add-mappings: false
 
 ---

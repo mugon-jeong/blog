@@ -4,6 +4,7 @@ include(
     "core:core-domain",
     "storage:db-core",
     "support:logging",
+    "support:monitoring",
 )
 pluginManagement {
     val kotlinVersion: String by settings
