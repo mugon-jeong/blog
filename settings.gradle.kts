@@ -2,7 +2,7 @@ rootProject.name = "blog"
 include(
     "core:core-api",
     "core:core-domain",
-    "storage:core-db",
+    "storage:db-core",
 )
 pluginManagement {
     val kotlinVersion: String by settings

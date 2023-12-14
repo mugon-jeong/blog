@@ -9,4 +9,8 @@ dependencies {
     api("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("com.h2database:h2")
+
+    // kotlin jdsl
+    implementation("com.linecorp.kotlin-jdsl:jpql-dsl:3.2.0")
+    implementation("com.linecorp.kotlin-jdsl:jpql-render:3.2.0")
 }
