@@ -15,6 +15,15 @@ spring.config.activate.on-profile: test
 ---
 spring.config.activate.on-profile: local
 
+jwt:
+  issuer: blog
+  secret: blog123dnadboiwefkjdfklsdsdfebkjxcviuewkjds
+  access:
+    expiry: 7200 # 2hour
+  refresh:
+    expiry: 604800 # 7day
+  invite:
+    expiry: 604800 # 7day
 ---
 spring.config.activate.on-profile: dev
 
