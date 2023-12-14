@@ -2,6 +2,7 @@ rootProject.name = "blog"
 include(
     "core:core-api",
     "core:core-domain",
+    "core:core-enum",
     "storage:db-core",
     "support:logging",
     "support:monitoring",

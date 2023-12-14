@@ -2,11 +2,11 @@ spring.application.name: core-api
 spring.profiles.active: local
 
 spring:
-  profiles:
-    include:
-      - db-core
-      - logger
-      - monitoring
+  config:
+    import:
+      - classpath:application-db-core.yml
+      - classpath:application-logger.yml
+      - classpath:application-monitoring.yml
   web.resources.add-mappings: false
 
 ---
