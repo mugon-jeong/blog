@@ -4,12 +4,16 @@ import com.example.blog.core.enums.Gender
 import com.example.blog.core.enums.Permission
 import com.example.blog.core.enums.TempPwStatus
 import com.example.blog.storage.db.core.PrimaryKey
+import com.example.blog.storage.db.core.blog.BlogEntity
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import jakarta.persistence.FetchType
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import org.hibernate.annotations.Comment
 import org.springframework.format.annotation.DateTimeFormat
@@ -80,6 +84,14 @@ class MemberEntity(
     @Comment("FCM")
     @Column(name = "fcm")
     var fcm: String? = fcm
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "writer")
+    protected val mutableBoards: MutableList<BlogEntity> = mutableListOf()
+    val blogs: List<BlogEntity> get() = mutableBoards.toList()
+
+    fun writeBoard(blog: BlogEntity) {
+        mutableBoards.add(blog)
+    }
 }
 
 @Embeddable

@@ -1,7 +1,6 @@
 package com.example.blog.core.api.v1.member
 
 import com.example.blog.core.api.security.loginMemberId
-import com.example.blog.core.domain.member.MemberService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -22,9 +21,11 @@ class MemberController(
         return memberService.appender(member.toDomain())
     }
 
-    @GetMapping("/login")
-    fun login(): Map<String, String> {
-        return loginService.login()
+    @PostMapping("/login")
+    fun login(
+        @RequestBody request: LoginRequest,
+    ): Map<String, String> {
+        return loginService.login(request.memberId, request.memberPw)
     }
 
     @GetMapping("/myInfo")

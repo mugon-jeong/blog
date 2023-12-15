@@ -6,6 +6,7 @@ import com.nimbusds.jose.proc.SecurityContext
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity.RequestMatcherConfigurer
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -34,8 +35,9 @@ class SecurityConfig(
         http
             .securityMatchers { matcher: RequestMatcherConfigurer -> matcher.requestMatchers("/api/**") }
             .authorizeHttpRequests {
-                it.requestMatchers("/api/admin/**").hasRole("ADMIN")
+                it.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                     .requestMatchers("/api/v1/login").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/member").permitAll()
                     .anyRequest().authenticated()
             }
             .httpBasic { it.disable() }

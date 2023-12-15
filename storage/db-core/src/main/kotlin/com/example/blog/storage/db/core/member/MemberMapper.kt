@@ -1,5 +1,6 @@
 package com.example.blog.storage.db.core.member
 
+import com.example.blog.core.domain.member.Member
 import com.example.blog.core.domain.member.MemberSignUp
 import com.example.blog.core.domain.member.PhoneInfo
 import com.example.blog.core.domain.member.PlatformSettings
@@ -27,4 +28,31 @@ fun PlatformSettings.toEntity() =
     PlatformSettingsEmbed(
         _language = language,
         _theme = theme,
+    )
+
+fun MemberEntity.toDomain() =
+    Member(
+        id = id,
+        memberId = memberId,
+        memberPw = memberPw,
+        name = name,
+        birth = birth,
+        phoneInfo = phoneInfo.toDomain(),
+        email = email,
+        platformSettings = platformSettings?.toDomain(),
+        fcm = fcm,
+        gender = gender,
+        permission = permission,
+    )
+
+fun PhoneInfoEmbed.toDomain() =
+    PhoneInfo(
+        phone = phone,
+        countryCode = countryCode,
+    )
+
+fun PlatformSettingsEmbed.toDomain() =
+    PlatformSettings(
+        language = language,
+        theme = theme,
     )
