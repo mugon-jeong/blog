@@ -1,4 +1,4 @@
-package com.example.blog.core.api.v1.blog
+package com.example.blog.core.api.controller.v1.blog
 
 import com.example.blog.core.domain.blog.BlogAppender
 import com.example.blog.core.domain.blog.BlogContent

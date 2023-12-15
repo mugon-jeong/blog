@@ -1,6 +1,7 @@
-package com.example.blog.core.api.v1.blog
+package com.example.blog.core.api.controller.v1.blog
 
 import com.example.blog.core.api.security.loginMemberId
+import com.example.blog.core.api.support.response.ApiResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -15,7 +16,8 @@ class BlogController(
     @PostMapping
     fun save(
         @RequestBody request: BlogAppendRequest,
-    ): UUID {
-        return blogService.appender(request.toDomain(loginMemberId()))
+    ): ApiResponse<UUID> {
+        val result = blogService.appender(request.toDomain(loginMemberId()))
+        return ApiResponse.success(result)
     }
 }

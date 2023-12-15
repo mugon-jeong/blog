@@ -1,4 +1,4 @@
-package com.example.blog.core.api.v1.member
+package com.example.blog.core.api.controller.v1.member
 
 import com.example.blog.core.domain.member.MemberSignUp
 import com.example.blog.core.domain.member.PhoneInfo

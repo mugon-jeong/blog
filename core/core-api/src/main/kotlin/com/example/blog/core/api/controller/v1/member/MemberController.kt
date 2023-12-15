@@ -1,6 +1,7 @@
-package com.example.blog.core.api.v1.member
+package com.example.blog.core.api.controller.v1.member
 
 import com.example.blog.core.api.security.loginMemberId
+import com.example.blog.core.api.support.response.ApiResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -17,15 +18,17 @@ class MemberController(
     @PostMapping("/member")
     fun appender(
         @RequestBody member: MemberSignUpRequest,
-    ): UUID {
-        return memberService.appender(member.toDomain())
+    ): ApiResponse<UUID> {
+        val result = memberService.appender(member.toDomain())
+        return ApiResponse.success(result)
     }
 
     @PostMapping("/login")
     fun login(
         @RequestBody request: LoginRequest,
-    ): Map<String, String> {
-        return loginService.login(request.memberId, request.memberPw)
+    ): ApiResponse<Map<String, String>> {
+        val result = loginService.login(request.memberId, request.memberPw)
+        return ApiResponse.success(result)
     }
 
     @GetMapping("/myInfo")
