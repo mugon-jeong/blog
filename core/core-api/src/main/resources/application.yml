@@ -14,7 +14,14 @@ spring.config.activate.on-profile: test
 
 ---
 spring.config.activate.on-profile: local
-
+spring:
+  docker:
+    compose:
+      enabled: true
+      lifecycle-management: start_and_stop
+      stop:
+        command: down
+        timeout: 1m
 jwt:
   issuer: blog
   secret: blog123dnadboiwefkjdfklsdsdfebkjxcviuewkjds

@@ -35,39 +35,31 @@ spring:
 spring.config.activate.on-profile: local
 
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5050/blog?serverTimezone=UTC
-    username: blog
-    password: blog123!
-#    hikari:
-#      maximum-pool-size: 5
-#      connection-timeout: 1100
-#      keepalive-time: 30000
-#      validation-timeout: 1000
-#      max-lifetime: 600000
-#      pool-name: core-db-pool
-#      data-source-properties:
-#        socketTimeout: 3000
-#        cachePrepStmts: true
-#        prepStmtCacheSize: 250
-#        prepStmtCacheSqlLimit: 2048
-#        useServerPrepStmts: true
-#        useLocalSessionState: true
-#        rewriteBatchedStatements: true
-#        cacheResultSetMetadata: true
-#        cacheServerConfiguration: true
-#        elideSetAutoCommits: true
-#        maintainTimeStats: false
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true # 쿼리 보기
-    properties:
+    datasource:
+      hikari:
+        connection-timeout: 30000
+        validation-timeout: 5000
+        max-lifetime: 600000
+        minimum-idle: 10
+        maximum-pool-size: 100
+        data-source-properties:
+          charSet: utf-8
+          maintenanceInterval: 30000
+          idleTimeout: 600000
+          maxPreparedStatements: 20
+          cachePrepStmts: true
+          cacheResultSetMetadata: true
+          useServerPrepStmts: true
+    jpa:
       hibernate:
-        format_sql: true # 한줄로 나오는 디버그 쿼리문을 포맷팅해줌
-        highlight_sql: true # SQL 콘솔 색 부여
-        use_sql_comments: false # /* */ 주석 추가
-        default_batch_fetch_size: 100 # jpa에서 복잡한 쿼리를 사용할때 한번에 벌크로 셀렉트
+        ddl-auto: create
+      show-sql: true # 쿼리 보기
+      properties:
+        hibernate:
+          format_sql: true # 한줄로 나오는 디버그 쿼리문을 포맷팅해줌
+          highlight_sql: true # SQL 콘솔 색 부여
+          use_sql_comments: false # /* */ 주석 추가
+          default_batch_fetch_size: 100 # jpa에서 복잡한 쿼리를 사용할때 한번에 벌크로 셀렉트
 
 ---
 spring.config.activate.on-profile: dev

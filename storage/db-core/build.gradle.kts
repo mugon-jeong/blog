@@ -20,4 +20,6 @@ dependencies {
 
     // https://github.com/f4b6a3/ulid-creator?tab=readme-ov-file
     implementation("com.github.f4b6a3:ulid-creator:5.2.2")
+
+    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 }
