@@ -1,4 +1,4 @@
-package com.example.blog.core.api.controller.v1.blog
+package com.example.blog.core.api.controller.v1.post
 
 import com.example.blog.core.api.security.loginMemberId
 import com.example.blog.core.api.support.response.ApiResponse
@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-@RequestMapping("/api/v1/blog")
-class BlogController(
-    private val blogService: BlogService,
+@RequestMapping("/api/v1/post")
+class PostController(
+    private val postService: PostService,
 ) {
     @PostMapping
     fun save(
-        @RequestBody request: BlogAppendRequest,
+        @RequestBody request: PostAppendRequest,
     ): ApiResponse<UUID> {
-        val result = blogService.appender(request.toDomain(loginMemberId()))
+        val result = postService.appender(request.toDomain(loginMemberId()))
         return ApiResponse.success(result)
     }
 }

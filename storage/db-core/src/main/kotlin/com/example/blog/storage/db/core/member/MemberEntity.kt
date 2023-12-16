@@ -4,7 +4,7 @@ import com.example.blog.core.enums.Gender
 import com.example.blog.core.enums.Permission
 import com.example.blog.core.enums.TempPwStatus
 import com.example.blog.storage.db.core.PrimaryKey
-import com.example.blog.storage.db.core.blog.BlogEntity
+import com.example.blog.storage.db.core.post.PostEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
@@ -86,10 +86,10 @@ class MemberEntity(
     var fcm: String? = fcm
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "writer")
-    protected val mutableBoards: MutableList<BlogEntity> = mutableListOf()
-    val blogs: List<BlogEntity> get() = mutableBoards.toList()
+    protected val mutableBoards: MutableList<PostEntity> = mutableListOf()
+    val blogs: List<PostEntity> get() = mutableBoards.toList()
 
-    fun writeBoard(blog: BlogEntity) {
+    fun writeBoard(blog: PostEntity) {
         mutableBoards.add(blog)
     }
 }

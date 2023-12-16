@@ -1,4 +1,4 @@
-package com.example.blog.storage.db.core.blog
+package com.example.blog.storage.db.core.post
 
 import com.example.blog.storage.db.core.PrimaryKey
 import com.example.blog.storage.db.core.member.MemberEntity
@@ -13,8 +13,8 @@ import jakarta.persistence.Table
 import org.hibernate.annotations.Comment
 
 @Entity
-@Table(name = "blog")
-class BlogEntity(
+@Table(name = "post")
+class PostEntity(
     title: String,
     content: String,
     writer: MemberEntity,
@@ -33,11 +33,11 @@ class BlogEntity(
     var writer: MemberEntity = writer
         protected set
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "blog")
-    private val mutableComments: MutableList<BlogCommentEntity> = mutableListOf()
-    val comments: List<BlogCommentEntity> get() = mutableComments.toList()
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "post")
+    private val mutableComments: MutableList<PostCommentEntity> = mutableListOf()
+    val comments: List<PostCommentEntity> get() = mutableComments.toList()
 
-    fun addComment(comment: BlogCommentEntity) {
+    fun addComment(comment: PostCommentEntity) {
         mutableComments.add(comment)
     }
 

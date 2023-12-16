@@ -1,4 +1,4 @@
-package com.example.blog.core.domain.blog
+package com.example.blog.core.domain.post
 
 import java.util.UUID
 

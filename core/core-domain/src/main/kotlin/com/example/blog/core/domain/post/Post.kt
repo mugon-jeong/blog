@@ -1,11 +1,11 @@
-package com.example.blog.core.domain.blog
+package com.example.blog.core.domain.post
 
 import java.util.UUID
 
-data class Blog(
+data class Post(
     val id: UUID,
     val title: String,
     val content: String,
     val writer: Writer,
-    val comments: List<BlogComment>,
+    val comments: List<PostComment>,
 )

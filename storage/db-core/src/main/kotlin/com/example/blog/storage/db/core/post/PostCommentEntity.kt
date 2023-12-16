@@ -1,4 +1,4 @@
-package com.example.blog.storage.db.core.blog
+package com.example.blog.storage.db.core.post
 
 import com.example.blog.storage.db.core.PrimaryKey
 import com.example.blog.storage.db.core.member.MemberEntity
@@ -10,11 +10,11 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 
 @Entity
-@Table(name = "blog_comment")
-class BlogCommentEntity(
+@Table(name = "post_comment")
+class PostCommentEntity(
     content: String,
     writer: MemberEntity,
-    blog: BlogEntity,
+    post: PostEntity,
 ) : PrimaryKey() {
     @Column(length = 3000)
     var content: String = content
@@ -25,5 +25,5 @@ class BlogCommentEntity(
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
-    var blog: BlogEntity = blog
+    var post: PostEntity = post
 }

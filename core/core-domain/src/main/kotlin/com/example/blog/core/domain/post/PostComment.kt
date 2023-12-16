@@ -1,8 +1,8 @@
-package com.example.blog.core.domain.blog
+package com.example.blog.core.domain.post
 
 import java.util.UUID
 
-data class BlogComment(
+data class PostComment(
     val id: UUID,
     val content: String,
     val writer: Writer,
