@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
+@Transactional
 @Repository
 class MemberEntityRepository(
     private val memberJpaRepository: MemberJpaRepository,
 ) : MemberRepository {
-    @Transactional
     override fun save(member: MemberSignUp): UUID {
         return memberJpaRepository.save(member.toEntity()).id
     }

@@ -1,0 +1,18 @@
+PUT {{host}}/api/v1/post/{{postId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "modify title",
+  "content": "modify content"
+}
+
+> {%
+    client.test("Validate", function () { // Validate라는 이름의 테스트를 수행
+        client.assert(response.status === 200, "Response status is not 200"); // 응답값이 200이면 통과
+        client.assert(response.contentType.mimeType === "application/json", "Expected 'application/json'"); // 응답값이 application/json이면 통과
+    });
+
+    client.log(response.body.data); // 토큰 값 로깅, body에는 응답받은 json이 객체 형식으로 저장된다. 즉 { accessToken:"value" }가 응답이라면, 여기선 value라 로깅된다.
+    client.global.set("postId", response.body.data) // 토큰 값을 global 변수에 set
+%}

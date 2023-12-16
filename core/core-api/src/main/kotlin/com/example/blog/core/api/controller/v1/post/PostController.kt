@@ -6,6 +6,7 @@ import com.example.blog.core.domain.post.Post
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -30,5 +31,14 @@ class PostController(
     ): ApiResponse<Post> {
         val post = postService.findById(UUID.fromString(postId))
         return ApiResponse.success(post)
+    }
+
+    @PutMapping("/{postId}")
+    fun update(
+        @PathVariable postId: String,
+        @RequestBody request: PostUpdateRequest,
+    ): ApiResponse<UUID> {
+        val updated = postService.updater(UUID.fromString(postId), loginMemberId(), request.title, request.content)
+        return ApiResponse.success(updated)
     }
 }

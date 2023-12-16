@@ -41,6 +41,14 @@ class PostEntity(
         mutableComments.add(comment)
     }
 
+    fun update(
+        title: String,
+        content: String,
+    ) {
+        this.title = title
+        this.content = content
+    }
+
     /**
      * this' 누수 경고는 객체 초기화가 완료되기 전에 다른 메서드에게 현재 객체의 참조를 제공할 때 발생하는 것을 의미
      * 여기서는 객체 초기화가 완료된 후에 writer.writeBoard(this)가 호출되므로 이 부분에서 발생하는 누수는 아님

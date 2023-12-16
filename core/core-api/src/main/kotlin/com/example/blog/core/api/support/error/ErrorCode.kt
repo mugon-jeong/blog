@@ -5,4 +5,5 @@ enum class ErrorCode {
     A100,
     A200,
     P100,
+    P200,
 }

@@ -6,4 +6,10 @@ interface PostRepository {
     fun save(post: PostContent): UUID
 
     fun findById(id: UUID): Post?
+
+    fun update(
+        id: UUID,
+        title: String,
+        content: String,
+    ): UUID
 }
