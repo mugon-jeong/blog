@@ -20,5 +20,5 @@ class PostService(
         return postAppender.append(post)
     }
 
-    fun findById(id: UUID) = postFinder.findById(id)?:throw CoreApiException(ErrorType.POST_NOT_FOUND_ERROR)
+    fun findById(id: UUID) = postFinder.findById(id) ?: throw CoreApiException(ErrorType.POST_NOT_FOUND_ERROR)
 }

@@ -5,7 +5,7 @@ import java.util.UUID
 
 @Storage
 class PostFinder(
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
 ) {
-    fun findById(id:UUID):Post? = postRepository.findById(id)
+    fun findById(id: UUID): Post? = postRepository.findById(id)
 }

@@ -13,16 +13,18 @@ fun PostContent.toEntity(member: MemberEntity) =
         writer = member,
     )
 
-fun PostEntity.toDomain() = Post(
-    id = id,
-    title = title,
-    content = content,
-    writer = writer.toWriter(),
-    comments = comments.map { it.toDomain() },
-)
+fun PostEntity.toDomain() =
+    Post(
+        id = id,
+        title = title,
+        content = content,
+        writer = writer.toWriter(),
+        comments = comments.map { it.toDomain() },
+    )
 
-fun PostCommentEntity.toDomain() = PostComment(
-    id = id,
-    content = content,
-    writer = writer.toWriter(),
-)
+fun PostCommentEntity.toDomain() =
+    PostComment(
+        id = id,
+        content = content,
+        writer = writer.toWriter(),
+    )

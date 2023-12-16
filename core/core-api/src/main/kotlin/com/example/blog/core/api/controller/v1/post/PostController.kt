@@ -25,7 +25,9 @@ class PostController(
     }
 
     @GetMapping("/{postId}")
-    fun getById(@PathVariable postId: String): ApiResponse<Post> {
+    fun getById(
+        @PathVariable postId: String,
+    ): ApiResponse<Post> {
         val post = postService.findById(UUID.fromString(postId))
         return ApiResponse.success(post)
     }

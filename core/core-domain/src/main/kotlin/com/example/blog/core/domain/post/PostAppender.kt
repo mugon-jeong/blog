@@ -1,7 +1,6 @@
 package com.example.blog.core.domain.post
 
 import com.example.blog.core.domain.support.Storage
-import org.springframework.stereotype.Component
 import java.util.UUID
 
 @Storage

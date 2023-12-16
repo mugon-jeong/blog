@@ -57,7 +57,9 @@ fun PlatformSettingsEmbed.toDomain() =
         language = language,
         theme = theme,
     )
-fun MemberEntity.toWriter() = Writer(
-    id = id,
-    name = name,
-)
+
+fun MemberEntity.toWriter() =
+    Writer(
+        id = id,
+        name = name,
+    )
