@@ -1,0 +1,13 @@
+### 회원가입
+POST {{host}}/api/v1/member
+Content-Type: application/json
+
+{
+  "memberId": "memberId",
+  "memberPw": "memberPw",
+  "name": "name",
+  "phone": "01012341234",
+  "countryCode": "82",
+  "birth": "2023-12-16",
+  "gender": "M"
+}

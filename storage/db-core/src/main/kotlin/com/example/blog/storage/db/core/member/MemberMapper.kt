@@ -4,6 +4,7 @@ import com.example.blog.core.domain.member.Member
 import com.example.blog.core.domain.member.MemberSignUp
 import com.example.blog.core.domain.member.PhoneInfo
 import com.example.blog.core.domain.member.PlatformSettings
+import com.example.blog.core.domain.post.Writer
 
 fun MemberSignUp.toEntity() =
     MemberEntity(
@@ -56,3 +57,7 @@ fun PlatformSettingsEmbed.toDomain() =
         language = language,
         theme = theme,
     )
+fun MemberEntity.toWriter() = Writer(
+    id = id,
+    name = name,
+)

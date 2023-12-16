@@ -1,8 +1,8 @@
 package com.example.blog.core.domain.member
 
-import org.springframework.stereotype.Component
+import com.example.blog.core.domain.support.Storage
 
-@Component
+@Storage
 class MemberChecker(
     private val memberRepository: MemberRepository,
 ) {

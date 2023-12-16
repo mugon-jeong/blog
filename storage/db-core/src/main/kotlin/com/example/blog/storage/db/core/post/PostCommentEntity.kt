@@ -26,4 +26,8 @@ class PostCommentEntity(
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     var post: PostEntity = post
+
+    init {
+        post.addComment(this)
+    }
 }

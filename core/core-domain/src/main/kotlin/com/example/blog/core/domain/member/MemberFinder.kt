@@ -1,9 +1,9 @@
 package com.example.blog.core.domain.member
 
-import org.springframework.stereotype.Component
+import com.example.blog.core.domain.support.Storage
 import java.util.UUID
 
-@Component
+@Storage
 class MemberFinder(
     private val memberRepository: MemberRepository,
 ) {
