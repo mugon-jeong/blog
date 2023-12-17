@@ -23,6 +23,7 @@ fun PostEntity.toDomain() =
         content = content,
         writer = writer.toWriter(),
         comments = comments.map { it.toDomain() },
+        createdAt = createdAt,
     )
 
 fun PostCommentEntity.toDomain() =

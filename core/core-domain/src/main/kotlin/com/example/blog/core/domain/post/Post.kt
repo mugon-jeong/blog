@@ -1,5 +1,6 @@
 package com.example.blog.core.domain.post
 
+import java.time.LocalDateTime
 import java.util.UUID
 
 data class Post(
@@ -8,4 +9,5 @@ data class Post(
     val content: String,
     val writer: Writer,
     val comments: List<PostComment>,
+    val createdAt: LocalDateTime,
 )
