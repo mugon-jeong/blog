@@ -2,3 +2,8 @@
 GET {{host}}/api/v1/post/{{postId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
+### page 검색
+GET {{host}}/api/v1/post?page=0&sort=createdAt,desc
+Content-Type: application/json
+Authorization: Bearer {{token}}

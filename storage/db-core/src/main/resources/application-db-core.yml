@@ -52,7 +52,7 @@ spring:
           useServerPrepStmts: true
     jpa:
       hibernate:
-        ddl-auto: create
+        ddl-auto: update
       show-sql: true # 쿼리 보기
       properties:
         hibernate:

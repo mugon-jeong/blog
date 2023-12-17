@@ -1,5 +1,7 @@
 package com.example.blog.core.domain.post
 
+import com.example.blog.core.domain.support.DomainPage
+import com.example.blog.core.domain.support.DomainSort
 import java.util.UUID
 
 interface PostRepository {
@@ -12,4 +14,10 @@ interface PostRepository {
         title: String,
         content: String,
     ): UUID
+
+    fun findPage(
+        pageNumber: Int,
+        pageSize: Int,
+        domainSort: DomainSort,
+    ): DomainPage<Post>
 }

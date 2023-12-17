@@ -7,8 +7,11 @@ import jakarta.persistence.MappedSuperclass
 import jakarta.persistence.PostLoad
 import jakarta.persistence.PostPersist
 import org.hibernate.proxy.HibernateProxy
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.domain.Persistable
 import java.io.Serializable
+import java.time.LocalDateTime
 import java.util.Objects
 import java.util.UUID
 
@@ -33,6 +36,14 @@ abstract class PrimaryKey : Persistable<UUID> {
      */
     @Transient
     private var isNew = true
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    var createdAt: LocalDateTime = LocalDateTime.now()
+
+    @LastModifiedDate
+    @Column(nullable = false)
+    var updatedAt: LocalDateTime = LocalDateTime.now()
 
     override fun getId(): UUID = id
 

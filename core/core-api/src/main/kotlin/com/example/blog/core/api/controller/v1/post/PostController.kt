@@ -3,6 +3,8 @@ package com.example.blog.core.api.controller.v1.post
 import com.example.blog.core.api.security.loginMemberId
 import com.example.blog.core.api.support.response.ApiResponse
 import com.example.blog.core.domain.post.Post
+import com.example.blog.core.domain.support.DomainPage
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -40,5 +42,11 @@ class PostController(
     ): ApiResponse<UUID> {
         val updated = postService.updater(UUID.fromString(postId), loginMemberId(), request.title, request.content)
         return ApiResponse.success(updated)
+    }
+
+    @GetMapping
+    fun save(pageable: Pageable): ApiResponse<DomainPage<Post>> {
+        val result = postService.findPage(pageable)
+        return ApiResponse.success(result)
     }
 }
