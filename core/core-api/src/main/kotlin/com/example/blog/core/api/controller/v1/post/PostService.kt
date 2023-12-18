@@ -45,7 +45,8 @@ class PostService(
         content: String,
     ): UUID {
         val post = postFinder.findById(postId) ?: throw CoreApiException(ErrorType.POST_NOT_FOUND_ERROR)
-        if (post.writer.id != updaterId) throw CoreApiException(ErrorType.POST_EDIT_PERMISSION_DENIED)
+        val isOwner = postChecker.checkOwner(postId, updaterId) ?: false
+        if (!isOwner) throw CoreApiException(ErrorType.POST_EDIT_PERMISSION_DENIED)
         return postUpdater.update(post.id, title, content)
     }
 
