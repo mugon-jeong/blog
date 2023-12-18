@@ -7,7 +7,7 @@ import java.util.UUID
 class PostRemover(
     private val postRepository: PostRepository,
 ) {
-    fun deleter(postId: UUID): UUID {
+    fun removeById(postId: UUID): UUID {
         return postRepository.deleteById(postId)
     }
 }

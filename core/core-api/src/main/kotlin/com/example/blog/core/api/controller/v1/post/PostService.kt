@@ -74,8 +74,8 @@ class PostService(
         postId: UUID,
         loginMemberId: UUID,
     ): UUID {
-        val (_, _, _, writer, _, _) = findById(postId)
-        if (writer.id != loginMemberId) throw CoreApiException(ErrorType.POST_DELETE_PERMISSION_DENIED)
-        return postRemover.deleter(postId)
+        val writerId = findById(postId).writer.id
+        if (writerId != loginMemberId) throw CoreApiException(ErrorType.POST_DELETE_PERMISSION_DENIED)
+        return postRemover.removeById(postId)
     }
 }
