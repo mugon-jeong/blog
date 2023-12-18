@@ -46,7 +46,7 @@ class SecurityConfig(
             .oauth2ResourceServer { oauth ->
                 oauth.jwt {
                     it.decoder(jwtDecoder()).jwtAuthenticationConverter(customJwtAuthenticationConverter())
-                }
+                }.authenticationEntryPoint(CustomBearerTokenAuthenticationEntryPoint())
             }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .exceptionHandling {

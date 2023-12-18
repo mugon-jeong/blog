@@ -18,7 +18,7 @@ class ApiControllerAdvice {
         when (e.errorType.logLevel) {
             LogLevel.ERROR -> log.error { "CoreApiException :  ${e.message} $e" }
             LogLevel.WARN -> log.warn { "CoreApiException :  ${e.message} $e" }
-            else -> log.info("CoreApiException : {}", e.message, e)
+            else -> log.info { "CoreApiException : , ${e.message}, $e" }
         }
         return ResponseEntity(ApiResponse.error(e.errorType, e.data), e.errorType.status)
     }
