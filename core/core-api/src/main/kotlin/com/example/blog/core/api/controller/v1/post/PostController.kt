@@ -3,6 +3,7 @@ package com.example.blog.core.api.controller.v1.post
 import com.example.blog.core.api.security.loginMemberId
 import com.example.blog.core.api.support.response.ApiResponse
 import com.example.blog.core.domain.post.Post
+import com.example.blog.core.domain.post.PostSummary
 import com.example.blog.core.domain.support.DomainPage
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -54,7 +55,7 @@ class PostController(
     }
 
     @GetMapping
-    fun findPage(pageable: Pageable): ApiResponse<DomainPage<Post>> {
+    fun findPage(pageable: Pageable): ApiResponse<DomainPage<PostSummary>> {
         val result = postService.findPage(pageable)
         return ApiResponse.success(result)
     }
