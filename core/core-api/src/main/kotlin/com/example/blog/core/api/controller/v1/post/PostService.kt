@@ -3,6 +3,7 @@ package com.example.blog.core.api.controller.v1.post
 import com.example.blog.core.api.support.error.CoreApiException
 import com.example.blog.core.api.support.error.ErrorType
 import com.example.blog.core.domain.post.PostAppender
+import com.example.blog.core.domain.post.PostChecker
 import com.example.blog.core.domain.post.PostContent
 import com.example.blog.core.domain.post.PostFinder
 import com.example.blog.core.domain.post.PostRemover
@@ -27,6 +28,7 @@ class PostService(
     private val postFinder: PostFinder,
     private val postUpdater: PostUpdater,
     private val postRemover: PostRemover,
+    private val postChecker: PostChecker,
 ) {
     @Transactional
     fun appender(post: PostContent): UUID {
@@ -74,8 +76,8 @@ class PostService(
         postId: UUID,
         loginMemberId: UUID,
     ): UUID {
-        val writerId = findById(postId).writer.id
-        if (writerId != loginMemberId) throw CoreApiException(ErrorType.POST_DELETE_PERMISSION_DENIED)
+        val isOwner = postChecker.checkOwner(postId, loginMemberId) ?: false
+        if (!isOwner) throw CoreApiException(ErrorType.POST_DELETE_PERMISSION_DENIED)
         return postRemover.removeById(postId)
     }
 }
