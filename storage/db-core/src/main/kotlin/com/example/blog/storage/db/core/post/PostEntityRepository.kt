@@ -3,6 +3,7 @@ package com.example.blog.storage.db.core.post
 import com.example.blog.core.domain.post.Post
 import com.example.blog.core.domain.post.PostContent
 import com.example.blog.core.domain.post.PostRepository
+import com.example.blog.core.domain.post.PostSummary
 import com.example.blog.core.domain.support.DomainPage
 import com.example.blog.core.domain.support.DomainSort
 import com.example.blog.storage.db.core.member.MemberJpaRepository
@@ -43,7 +44,7 @@ class PostEntityRepository(
         pageNumber: Int,
         pageSize: Int,
         domainSort: DomainSort,
-    ): DomainPage<Post> {
+    ): DomainPage<PostSummary> {
         logger.info { "findPage: pageNumber=$pageNumber, pageSize=$pageSize, postSort=$domainSort" }
         val sort =
             when (domainSort.isAsc) {
@@ -59,5 +60,10 @@ class PostEntityRepository(
                 entity(PostEntity::class),
             )
         }.toDomain()
+    }
+
+    override fun deleteById(postId: UUID): UUID {
+        postJpaRepository.deleteById(postId)
+        return postId
     }
 }

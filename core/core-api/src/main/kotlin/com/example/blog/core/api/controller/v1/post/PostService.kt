@@ -2,10 +2,11 @@ package com.example.blog.core.api.controller.v1.post
 
 import com.example.blog.core.api.support.error.CoreApiException
 import com.example.blog.core.api.support.error.ErrorType
-import com.example.blog.core.domain.post.Post
 import com.example.blog.core.domain.post.PostAppender
 import com.example.blog.core.domain.post.PostContent
 import com.example.blog.core.domain.post.PostFinder
+import com.example.blog.core.domain.post.PostRemover
+import com.example.blog.core.domain.post.PostSummary
 import com.example.blog.core.domain.post.PostUpdater
 import com.example.blog.core.domain.support.DomainPage
 import com.example.blog.core.domain.support.DomainSort
@@ -25,6 +26,7 @@ class PostService(
     private val postAppender: PostAppender,
     private val postFinder: PostFinder,
     private val postUpdater: PostUpdater,
+    private val postRemover: PostRemover,
 ) {
     @Transactional
     fun appender(post: PostContent): UUID {
@@ -45,7 +47,7 @@ class PostService(
         return postUpdater.update(post.id, title, content)
     }
 
-    fun findPage(pageable: Pageable): DomainPage<Post> {
+    fun findPage(pageable: Pageable): DomainPage<PostSummary> {
         logger.info {
             """
             pageable: $pageable
@@ -65,5 +67,15 @@ class PostService(
             pageSize = pageable.pageSize,
             domainSort = postSort,
         )
+    }
+
+    @Transactional
+    fun deleteById(
+        postId: UUID,
+        loginMemberId: UUID,
+    ): UUID {
+        val (_, _, _, writer, _, _) = findById(postId)
+        if (writer.id != loginMemberId) throw CoreApiException(ErrorType.POST_DELETE_PERMISSION_DENIED)
+        return postRemover.deleter(postId)
     }
 }

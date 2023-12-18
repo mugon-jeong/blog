@@ -19,5 +19,7 @@ interface PostRepository {
         pageNumber: Int,
         pageSize: Int,
         domainSort: DomainSort,
-    ): DomainPage<Post>
+    ): DomainPage<PostSummary>
+
+    fun deleteById(postId: UUID): UUID
 }

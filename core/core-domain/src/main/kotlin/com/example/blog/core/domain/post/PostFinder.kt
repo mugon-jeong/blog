@@ -15,7 +15,7 @@ class PostFinder(
         pageNumber: Int,
         pageSize: Int,
         domainSort: DomainSort,
-    ): DomainPage<Post> =
+    ): DomainPage<PostSummary> =
         postRepository.findPage(
             pageNumber,
             pageSize,

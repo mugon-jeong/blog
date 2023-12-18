@@ -5,6 +5,7 @@ import com.example.blog.core.api.support.response.ApiResponse
 import com.example.blog.core.domain.post.Post
 import com.example.blog.core.domain.support.DomainPage
 import org.springframework.data.domain.Pageable
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -44,8 +45,16 @@ class PostController(
         return ApiResponse.success(updated)
     }
 
+    @DeleteMapping("/{postId}")
+    fun deleteById(
+        @PathVariable postId: String,
+    ): ApiResponse<UUID> {
+        val deleted = postService.deleteById(UUID.fromString(postId), loginMemberId())
+        return ApiResponse.success(deleted)
+    }
+
     @GetMapping
-    fun save(pageable: Pageable): ApiResponse<DomainPage<Post>> {
+    fun findPage(pageable: Pageable): ApiResponse<DomainPage<Post>> {
         val result = postService.findPage(pageable)
         return ApiResponse.success(result)
     }

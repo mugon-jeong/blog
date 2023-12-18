@@ -3,6 +3,7 @@ package com.example.blog.storage.db.core.post
 import com.example.blog.core.domain.post.Post
 import com.example.blog.core.domain.post.PostComment
 import com.example.blog.core.domain.post.PostContent
+import com.example.blog.core.domain.post.PostSummary
 import com.example.blog.core.domain.support.DomainPage
 import com.example.blog.storage.db.core.member.MemberEntity
 import com.example.blog.storage.db.core.member.toWriter
@@ -26,6 +27,14 @@ fun PostEntity.toDomain() =
         createdAt = createdAt,
     )
 
+fun PostEntity.toSummary() =
+    PostSummary(
+        id = id,
+        title = title,
+        writer = writer.name,
+        createdAt = createdAt,
+    )
+
 fun PostCommentEntity.toDomain() =
     PostComment(
         id = id,
@@ -33,11 +42,11 @@ fun PostCommentEntity.toDomain() =
         writer = writer.toWriter(),
     )
 
-fun Page<PostEntity?>.toDomain(): DomainPage<Post> {
+fun Page<PostEntity?>.toDomain(): DomainPage<PostSummary> {
     val content =
         this.content
             .takeIf { it.isNotEmpty() }
-            ?.mapNotNull { it?.toDomain() }
+            ?.mapNotNull { it?.toSummary() }
             .orEmpty()
     return DomainPage(
         content = content,

@@ -12,4 +12,5 @@ enum class ErrorType(val status: HttpStatus, val code: ErrorCode, val message: S
     ACCESS_DENY(HttpStatus.FORBIDDEN, ErrorCode.A100, "접근 권한이 없습니다.", LogLevel.ERROR),
     TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, ErrorCode.T100, "토큰이 없습니다.", LogLevel.ERROR),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, ErrorCode.T200, "토큰이 유효하지 않습니다..", LogLevel.ERROR),
+    POST_DELETE_PERMISSION_DENIED(HttpStatus.FORBIDDEN, ErrorCode.P200, "게시글 삭제 권한이 없습니다.", LogLevel.ERROR),
 }

@@ -1,0 +1,4 @@
+### id로 삭제
+DELETE {{host}}/api/v1/post/{{postId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
