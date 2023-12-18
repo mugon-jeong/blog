@@ -12,13 +12,11 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
-import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 private val logger = KotlinLogging.logger { }
 
 @Repository
-@Transactional
 class PostEntityRepository(
     private val postJpaRepository: PostJpaRepository,
     private val memberJpaRepository: MemberJpaRepository,
