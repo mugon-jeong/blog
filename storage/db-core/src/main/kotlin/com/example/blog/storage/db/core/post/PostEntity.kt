@@ -2,6 +2,7 @@ package com.example.blog.storage.db.core.post
 
 import com.example.blog.storage.db.core.PrimaryKey
 import com.example.blog.storage.db.core.member.MemberEntity
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -11,6 +12,9 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import org.hibernate.annotations.Comment
+import java.util.UUID
+
+private val logger = KotlinLogging.logger { }
 
 @Entity
 @Table(name = "post")
@@ -33,12 +37,25 @@ class PostEntity(
     var writer: MemberEntity = writer
         protected set
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "post")
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true, mappedBy = "post")
     private val mutableComments: MutableList<PostCommentEntity> = mutableListOf()
     val comments: List<PostCommentEntity> get() = mutableComments.toList()
 
     fun addComment(comment: PostCommentEntity) {
         mutableComments.add(comment)
+    }
+
+    fun deleteComment(commentId: UUID) {
+        mutableComments.removeIf {
+            it.id == commentId
+        }
+    }
+
+    fun updateComment(
+        commentId: UUID,
+        content: String,
+    ) {
+        mutableComments.find { it.id == commentId }?.content = content
     }
 
     fun update(

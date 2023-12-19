@@ -81,4 +81,39 @@ class PostService(
         if (!isOwner) throw CoreApiException(ErrorType.POST_DELETE_PERMISSION_DENIED)
         return postRemover.removeById(postId)
     }
+
+    @Transactional
+    fun addComment(
+        postId: UUID,
+        writer: UUID,
+        content: String,
+    ): UUID {
+        postChecker.checkExist(postId) ?: throw CoreApiException(ErrorType.POST_NOT_FOUND_ERROR)
+        return postAppender.appendComment(postId = postId, writerId = writer, content = content)
+    }
+
+    @Transactional
+    fun removeComment(
+        postId: UUID,
+        writer: UUID,
+        commentId: UUID,
+    ): UUID {
+        postChecker.checkExist(postId) ?: throw CoreApiException(ErrorType.POST_NOT_FOUND_ERROR)
+        postChecker.checkCommentOwner(postId = postId, commentId = commentId, writer = writer)
+            ?: throw CoreApiException(ErrorType.POST_EDIT_PERMISSION_DENIED)
+        return postRemover.removeComment(postId = postId, commentId = commentId)
+    }
+
+    @Transactional
+    fun updateComment(
+        postId: UUID,
+        commentId: UUID,
+        writer: UUID,
+        content: String,
+    ): UUID {
+        postChecker.checkExist(postId) ?: throw CoreApiException(ErrorType.POST_NOT_FOUND_ERROR)
+        postChecker.checkCommentOwner(postId, commentId, writer)
+            ?: throw CoreApiException(ErrorType.POST_EDIT_PERMISSION_DENIED)
+        return postUpdater.updateComment(postId = postId, commentId = commentId, content = content)
+    }
 }

@@ -1,0 +1,7 @@
+PUT {{host}}/api/v1/post/{{postId}}/comments/{{commentId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "content": "abc content"
+}

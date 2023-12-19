@@ -14,4 +14,12 @@ class PostUpdater(
     ): UUID {
         return postRepository.update(id, title, content)
     }
+
+    fun updateComment(
+        postId: UUID,
+        commentId: UUID,
+        content: String,
+    ): UUID {
+        return postRepository.updateComment(postId, commentId, content)
+    }
 }

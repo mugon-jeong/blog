@@ -14,4 +14,15 @@ class PostChecker(
         val post = postFinder.findById(postId)
         return post?.writer?.id == checkRequestMemberId
     }
+
+    fun checkExist(postId: UUID): UUID? = postFinder.findById(postId)?.id
+
+    fun checkCommentOwner(
+        postId: UUID,
+        commentId: UUID,
+        writer: UUID,
+    ): Boolean? {
+        val post = postFinder.findById(postId)
+        return post?.comments?.filter { it.writer.id == writer }.isNullOrEmpty()
+    }
 }

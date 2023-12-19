@@ -30,4 +30,8 @@ class PostCommentEntity(
     init {
         post.addComment(this)
     }
+
+    fun update(content: String) {
+        this.content = content
+    }
 }

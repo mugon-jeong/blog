@@ -10,4 +10,12 @@ class PostAppender(
     fun append(post: PostContent): UUID {
         return postRepository.save(post)
     }
+
+    fun appendComment(
+        postId: UUID,
+        writerId: UUID,
+        content: String,
+    ): UUID {
+        return postRepository.addComment(postId, writerId, content)
+    }
 }

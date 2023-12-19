@@ -59,4 +59,32 @@ class PostController(
         val result = postService.findPage(pageable)
         return ApiResponse.success(result)
     }
+
+    @PostMapping("/{postId}/comments")
+    fun addComment(
+        @PathVariable postId: UUID,
+        @RequestBody request: PostCommentAppendRequest,
+    ): ApiResponse<UUID> {
+        val result = postService.addComment(postId, loginMemberId(), request.content)
+        return ApiResponse.success(result)
+    }
+
+    @DeleteMapping("/{postId}/comments/{commentId}")
+    fun deleteComment(
+        @PathVariable postId: UUID,
+        @PathVariable commentId: UUID,
+    ): UUID {
+        val result = postService.removeComment(postId = postId, commentId = commentId, writer = loginMemberId())
+        return result
+    }
+
+    @PutMapping("/{postId}/comments/{commentId}")
+    fun updateComment(
+        @PathVariable postId: UUID,
+        @PathVariable commentId: UUID,
+        @RequestBody request: PostCommentAppendRequest,
+    ): UUID {
+        val result = postService.updateComment(postId, commentId, loginMemberId(), request.content)
+        return result
+    }
 }

@@ -22,4 +22,21 @@ interface PostRepository {
     ): DomainPage<PostSummary>
 
     fun deleteById(postId: UUID): UUID
+
+    fun addComment(
+        postId: UUID,
+        writer: UUID,
+        content: String,
+    ): UUID
+
+    fun removeComment(
+        postId: UUID,
+        commentId: UUID,
+    ): UUID
+
+    fun updateComment(
+        postId: UUID,
+        commentId: UUID,
+        content: String,
+    ): UUID
 }

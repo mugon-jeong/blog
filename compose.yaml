@@ -6,7 +6,7 @@ services:
       - 'POSTGRES_PASSWORD=blog123!'
       - 'POSTGRES_USER=blog'
     ports:
-      - '5000:5432'
+      - '5432:5432'
     volumes:
       - db:/var/lib/postgresql/data
 volumes:

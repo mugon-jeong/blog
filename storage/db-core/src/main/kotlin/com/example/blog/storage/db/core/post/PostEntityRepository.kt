@@ -64,4 +64,34 @@ class PostEntityRepository(
         postJpaRepository.deleteById(postId)
         return postId
     }
+
+    override fun addComment(
+        postId: UUID,
+        writer: UUID,
+        content: String,
+    ): UUID {
+        val postEntity = postJpaRepository.getReferenceById(postId)
+        val writerEntity = memberJpaRepository.getReferenceById(writer)
+        postEntity.addComment(PostCommentEntity(content = content, writer = writerEntity, post = postEntity))
+        return postEntity.comments.last().id
+    }
+
+    override fun removeComment(
+        postId: UUID,
+        commentId: UUID,
+    ): UUID {
+        val postEntity = postJpaRepository.getReferenceById(postId)
+        postEntity.deleteComment(commentId)
+        return postId
+    }
+
+    override fun updateComment(
+        postId: UUID,
+        commentId: UUID,
+        content: String,
+    ): UUID {
+        val postEntity = postJpaRepository.getReferenceById(postId)
+        postEntity.updateComment(commentId, content)
+        return postId
+    }
 }

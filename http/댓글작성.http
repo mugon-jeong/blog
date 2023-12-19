@@ -1,11 +1,9 @@
-### 글 작성
-POST {{host}}/api/v1/post
+POST {{host}}/api/v1/post/{{postId}}/comments
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "content": "content",
-  "title": "title"
+  "content": "content"
 }
 
 > {%
@@ -15,5 +13,5 @@ Authorization: Bearer {{token}}
     });
 
     client.log(response.body.data); // 토큰 값 로깅, body에는 응답받은 json이 객체 형식으로 저장된다. 즉 { accessToken:"value" }가 응답이라면, 여기선 value라 로깅된다.
-    client.global.set("postId", response.body.data) // 토큰 값을 global 변수에 set
+    client.global.set("commentId", response.body.data) // 토큰 값을 global 변수에 set
 %}

@@ -10,4 +10,11 @@ class PostRemover(
     fun removeById(postId: UUID): UUID {
         return postRepository.deleteById(postId)
     }
+
+    fun removeComment(
+        postId: UUID,
+        commentId: UUID,
+    ): UUID {
+        return postRepository.removeComment(postId, commentId)
+    }
 }

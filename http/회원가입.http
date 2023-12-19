@@ -3,8 +3,8 @@ POST {{host}}/api/v1/member
 Content-Type: application/json
 
 {
-  "memberId": "memberId2",
-  "memberPw": "memberPw2",
+  "memberId": "memberId",
+  "memberPw": "memberPw",
   "name": "name",
   "phone": "01012341234",
   "countryCode": "82",
