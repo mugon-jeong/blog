@@ -21,11 +21,16 @@ class CustomJwtAuthenticationConverter(
     private fun convert(
         jwt: Jwt,
         authorities: Collection<GrantedAuthority>,
-    ): AbstractAuthenticationToken {
-        return JwtAuthenticationToken(jwt, authorities)
+    ): JwtAuthenticationToken {
+        val memberUUID = UUID.fromString(jwt.getClaimAsString("id"))
+        val token = MemberJwtToken(memberUUID, jwt, authorities)
+        SecurityContextHolder.getContext().authentication = token
+        return token
     }
 }
 
-private fun memberJwtToken() = SecurityContextHolder.getContext().authentication as JwtAuthenticationToken
+class MemberJwtToken(val id: UUID, jwt: Jwt, authorities: Collection<GrantedAuthority>) : JwtAuthenticationToken(jwt, authorities)
 
-fun loginMemberId(): UUID = UUID.fromString(memberJwtToken().token.getClaimAsString("id"))
+private fun memberJwtToken() = SecurityContextHolder.getContext().authentication as MemberJwtToken
+
+fun loginMemberId(): UUID = memberJwtToken().id
