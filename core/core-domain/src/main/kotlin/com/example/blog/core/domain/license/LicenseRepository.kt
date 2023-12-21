@@ -9,4 +9,6 @@ interface LicenseRepository {
         licenseId: UUID,
         targetId: UUID,
     ): UUID
+
+    fun findByMemberId(memberId: UUID): License?
 }

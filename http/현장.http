@@ -1,0 +1,9 @@
+### 현장 생성
+POST {{host}}/api/v1/site
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "name",
+  "address": "address"
+}

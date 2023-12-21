@@ -1,11 +1,14 @@
 package com.example.blog.core.api.security
 
+import com.example.blog.core.domain.license.LicenseFinder
+import com.example.blog.core.enums.Permission
 import com.nimbusds.jose.jwk.source.ImmutableSecret
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.annotation.Order
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity.RequestMatcherConfigurer
@@ -19,6 +22,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
@@ -29,10 +33,11 @@ import javax.crypto.spec.SecretKeySpec
 class SecurityConfig(
     @Value("\${jwt.secret}")
     var jwtSecretKey: String,
+    private val licenseFinder: LicenseFinder,
 ) {
     @Bean
     fun web(http: HttpSecurity): SecurityFilterChain {
-        http
+        default(http)
             .securityMatchers { matcher: RequestMatcherConfigurer -> matcher.requestMatchers("/api/**") }
             .authorizeHttpRequests {
                 it.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
@@ -40,6 +45,25 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.POST, "/api/v1/member").permitAll()
                     .anyRequest().authenticated()
             }
+        return http.build()
+    }
+
+    @Bean
+    @Order(Int.MIN_VALUE)
+    fun siteSecurity(http: HttpSecurity): SecurityFilterChain {
+        default(http)
+            .securityMatchers { matcher: RequestMatcherConfigurer -> matcher.requestMatchers("/api/*/site/**") }
+            .authorizeHttpRequests {
+                it
+                    .requestMatchers("/api/v1/site/**").hasAuthority(Permission.SITE_ACCESS.roleName)
+                    .anyRequest().authenticated()
+            }
+            .addFilterAfter(SiteAccessFilter(licenseFinder), BearerTokenAuthenticationFilter::class.java)
+        return http.build()
+    }
+
+    private fun default(http: HttpSecurity): HttpSecurity {
+        return http
             .httpBasic { it.disable() }
             .csrf { it.disable() }
             .cors { it.configurationSource(corsConfigurationSource()) }
@@ -53,8 +77,6 @@ class SecurityConfig(
                 it.authenticationEntryPoint(CustomAuthenticationEntryPoint()) // 권한 에러 oauth2ResourceServer의 accessDeniedHandler 보다 먼저 작동
                 it.accessDeniedHandler(CustomAccessDeniedHandler())
             }
-
-        return http.build()
     }
 
     @Bean
@@ -91,7 +113,7 @@ class SecurityConfig(
         val grantedAuthoritiesConverter =
             JwtGrantedAuthoritiesConverter().apply {
                 setAuthoritiesClaimName("permission")
-                setAuthorityPrefix("ROLE_")
+                setAuthorityPrefix("")
             }
         val jwtAuthenticationConverter =
             JwtAuthenticationConverter().apply {

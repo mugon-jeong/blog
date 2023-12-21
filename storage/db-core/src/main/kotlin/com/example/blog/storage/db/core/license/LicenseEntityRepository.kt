@@ -1,5 +1,6 @@
 package com.example.blog.storage.db.core.license
 
+import com.example.blog.core.domain.license.License
 import com.example.blog.core.domain.license.LicenseRepository
 import com.example.blog.storage.db.core.member.MemberJpaRepository
 import org.springframework.stereotype.Repository
@@ -22,5 +23,10 @@ class LicenseEntityRepository(
         val member = memberJpaRepository.findById(targetId).get()
         member.grant(license)
         return member.id
+    }
+
+    override fun findByMemberId(memberId: UUID): License? {
+        val member = memberJpaRepository.getReferenceById(memberId)
+        return member.license?.toDomain()
     }
 }
