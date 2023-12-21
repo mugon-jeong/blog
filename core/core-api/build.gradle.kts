@@ -9,6 +9,7 @@ tasks.getByName("jar") {
 dependencies {
     implementation(project(":core:core-domain"))
     implementation(project(":core:core-enum"))
+    implementation(project(":domain:site"))
     implementation(project(":support:logging"))
     implementation(project(":support:monitoring"))
     implementation(project(":storage:db-core"))

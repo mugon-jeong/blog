@@ -19,7 +19,7 @@ class CustomAuthenticationEntryPoint : AuthenticationEntryPoint {
     ) {
         response.status = HttpStatus.FORBIDDEN.value()
         response.contentType = "application/json; charset=utf-8"
-        response.writer.write(objectMapper.writeValueAsString(ApiResponse.error<Any>(ErrorType.ACCESS_DENY, null)))
+        response.writer.write(objectMapper.writeValueAsString(ApiResponse.error<Any>(ErrorType.TOKEN_NOT_FOUND, null)))
         response.writer.flush()
     }
 }

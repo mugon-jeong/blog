@@ -4,7 +4,9 @@ import com.example.blog.core.enums.Gender
 import com.example.blog.core.enums.Permission
 import com.example.blog.core.enums.TempPwStatus
 import com.example.blog.storage.db.core.PrimaryKey
+import com.example.blog.storage.db.core.license.LicenseEntity
 import com.example.blog.storage.db.core.post.PostEntity
+import com.example.blog.storage.db.core.site.SiteEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
@@ -13,7 +15,9 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
+import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
+import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.Comment
 import org.springframework.format.annotation.DateTimeFormat
@@ -78,6 +82,11 @@ class MemberEntity(
     var tempPwStatus: TempPwStatus = TempPwStatus.N
         protected set
 
+    @Comment("라이센스")
+    @OneToOne(optional = true)
+    @JoinColumn(name = "license_id")
+    var license: LicenseEntity? = null
+
     @Embedded
     var platformSettings: PlatformSettingsEmbed? = platformSettings
 
@@ -89,8 +98,20 @@ class MemberEntity(
     protected val mutableBoards: MutableList<PostEntity> = mutableListOf()
     val blogs: List<PostEntity> get() = mutableBoards.toList()
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "owner")
+    protected val mutableSites: MutableList<SiteEntity> = mutableListOf()
+    val sites: List<SiteEntity> get() = mutableSites.toList()
+
     fun writeBoard(blog: PostEntity) {
         mutableBoards.add(blog)
+    }
+
+    fun ownSite(site: SiteEntity) {
+        mutableSites.add(site)
+    }
+
+    fun grant(license: LicenseEntity) {
+        this.license = license
     }
 }
 

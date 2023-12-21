@@ -3,6 +3,7 @@ include(
     "core:core-api",
     "core:core-domain",
     "core:core-enum",
+    "domain:site",
     "storage:db-core",
     "support:logging",
     "support:monitoring",

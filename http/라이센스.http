@@ -1,0 +1,12 @@
+@licenseId=018c8a39-3ef0-2244-4ed8-08614a72a418
+@targetId=018c7aba-5160-b5a1-fe51-fe037080a9ed
+
+### 생성
+POST {{host}}/api/v1/license
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### 부여
+POST {{host}}/api/v1/license/{{licenseId}}/grant/{{targetId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
