@@ -68,7 +68,7 @@ class SiteAccessFilter(
         if (site != null && site.owner.id == userId) {
             authorities.add(SimpleGrantedAuthority(Permission.SITE_OWNER.roleName))
         }
-        authorities.add(SimpleGrantedAuthority(Permission.SITE_ACCESS.roleName))
+        addSiteAccessAuthorityIfLicenseExists(authorities, userId)
     }
 
     private fun updateAuthentication(

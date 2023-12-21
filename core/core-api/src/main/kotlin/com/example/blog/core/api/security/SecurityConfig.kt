@@ -24,6 +24,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
 import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -36,12 +37,18 @@ class SecurityConfig(
     private val siteAccessService: SiteAccessService,
 ) {
     @Bean
-    fun roleHierarchy(): RoleHierarchy {
-        val hierarchy = RoleHierarchyImpl()
-        hierarchy.setHierarchy("ADMIN > SITE_OWNER")
-        hierarchy.setHierarchy("SITE_OWNER > SITE_ACCESS")
-        hierarchy.setHierarchy("USER = SITE_ACCESS")
-        return hierarchy
+    fun roleHierarchy(): RoleHierarchy =
+        RoleHierarchyImpl().apply { // Optional
+            setHierarchy("ADMIN > SITE_OWNER")
+            setHierarchy("SITE_OWNER > SITE_ACCESS")
+            setHierarchy("USER = SITE_ACCESS")
+        }
+
+    @Bean
+    fun customWebSecurityExpressionHandler(): DefaultWebSecurityExpressionHandler {
+        val expressionHandler = DefaultWebSecurityExpressionHandler()
+        expressionHandler.setRoleHierarchy(roleHierarchy())
+        return expressionHandler
     }
 
     @Bean
