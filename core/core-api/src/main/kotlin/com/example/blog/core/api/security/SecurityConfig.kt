@@ -7,8 +7,9 @@ import com.nimbusds.jose.proc.SecurityContext
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.annotation.Order
 import org.springframework.http.HttpMethod
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity.RequestMatcherConfigurer
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -35,7 +36,15 @@ class SecurityConfig(
     private val siteAccessService: SiteAccessService,
 ) {
     @Bean
-    @Order(3)
+    fun roleHierarchy(): RoleHierarchy {
+        val hierarchy = RoleHierarchyImpl()
+        hierarchy.setHierarchy("ADMIN > SITE_OWNER")
+        hierarchy.setHierarchy("SITE_OWNER > SITE_ACCESS")
+        hierarchy.setHierarchy("USER = SITE_ACCESS")
+        return hierarchy
+    }
+
+    @Bean
     fun web(http: HttpSecurity): SecurityFilterChain {
         default(http)
             .securityMatchers { matcher: RequestMatcherConfigurer -> matcher.requestMatchers("/api/**") }
