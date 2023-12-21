@@ -4,6 +4,7 @@ include(
     "core:core-domain",
     "core:core-enum",
     "domain:site",
+    "domain:wts",
     "storage:db-core",
     "support:logging",
     "support:monitoring",

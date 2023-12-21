@@ -2,11 +2,14 @@ package com.example.blog.storage.db.core.site
 
 import com.example.blog.storage.db.core.PrimaryKey
 import com.example.blog.storage.db.core.member.MemberEntity
+import com.example.blog.storage.db.core.wts.WtsEntity
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import org.hibernate.annotations.Comment
 
@@ -30,6 +33,14 @@ class SiteEntity(
     @JoinColumn(nullable = false)
     var owner: MemberEntity = owner
         protected set
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true, mappedBy = "site")
+    private val mutableWts: MutableList<WtsEntity> = mutableListOf()
+    val wts: List<WtsEntity> get() = mutableWts.toList()
+
+    fun addWts(wts: WtsEntity) {
+        this.mutableWts.add(wts)
+    }
 
     /**
      * this' 누수 경고는 객체 초기화가 완료되기 전에 다른 메서드에게 현재 객체의 참조를 제공할 때 발생하는 것을 의미

@@ -14,4 +14,5 @@ enum class ErrorType(val status: HttpStatus, val code: ErrorCode, val message: S
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, ErrorCode.T200, "토큰이 유효하지 않습니다..", LogLevel.ERROR),
     POST_DELETE_PERMISSION_DENIED(HttpStatus.FORBIDDEN, ErrorCode.P200, "게시글 삭제 권한이 없습니다.", LogLevel.ERROR),
     SITE_NOT_FOUND_ERROR(HttpStatus.BAD_REQUEST, ErrorCode.P100, "존재하지 않는 SITE 입니다.", LogLevel.ERROR),
+    WTS_NOT_FOUND_ERROR(HttpStatus.BAD_REQUEST, ErrorCode.P100, "존재하지 않는 WTS 입니다.", LogLevel.ERROR),
 }

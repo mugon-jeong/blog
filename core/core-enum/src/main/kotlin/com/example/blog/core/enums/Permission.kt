@@ -5,4 +5,5 @@ enum class Permission(val roleName: String) {
     USER("ROLE_USER"),
     SITE_ACCESS("SITE_ACCESS"),
     SITE_DENY("SITE_DENY"),
+    SITE_OWNER("SITE_OWNER"),
 }

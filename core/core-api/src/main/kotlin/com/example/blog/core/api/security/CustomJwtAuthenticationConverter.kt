@@ -14,11 +14,11 @@ private val log = KotlinLogging.logger { }
 
 class CustomJwtAuthenticationConverter(
     private val jwtAuthenticationConverter: JwtAuthenticationConverter,
-) : Converter<Jwt?, AbstractAuthenticationToken?> {
-    override fun convert(jwt: Jwt): AbstractAuthenticationToken {
-        val token = jwtAuthenticationConverter.convert(jwt)
+) : Converter<Jwt, AbstractAuthenticationToken> {
+    override fun convert(source: Jwt): AbstractAuthenticationToken {
+        val token = jwtAuthenticationConverter.convert(source)
         val authorities = token!!.authorities
-        return convert(jwt, authorities)
+        return convert(source, authorities)
     }
 
     private fun convert(

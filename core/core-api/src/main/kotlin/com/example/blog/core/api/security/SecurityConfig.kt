@@ -8,7 +8,6 @@ import com.nimbusds.jose.proc.SecurityContext
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.annotation.Order
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity.RequestMatcherConfigurer
@@ -36,6 +35,32 @@ class SecurityConfig(
     private val licenseFinder: LicenseFinder,
 ) {
     @Bean
+    fun siteSecurity(http: HttpSecurity): SecurityFilterChain {
+        default(http)
+            .securityMatchers { matcher: RequestMatcherConfigurer -> matcher.requestMatchers("/api/*/site/*/wts") }
+            .authorizeHttpRequests {
+                it
+                    .requestMatchers("/api/v1/site/**").hasAuthority(Permission.SITE_ACCESS.roleName)
+                    .anyRequest().authenticated()
+            }
+            .addFilterAfter(SiteAccessFilter(licenseFinder), BearerTokenAuthenticationFilter::class.java)
+        return http.build()
+    }
+
+    @Bean
+    fun moduleSecurity(http: HttpSecurity): SecurityFilterChain {
+        default(http)
+            .securityMatchers { matcher: RequestMatcherConfigurer -> matcher.requestMatchers("/api/*/site/**") }
+            .authorizeHttpRequests {
+                it
+                    .requestMatchers("/api/v1/site/**").hasAuthority(Permission.SITE_ACCESS.roleName)
+                    .anyRequest().authenticated()
+            }
+            .addFilterAfter(SiteAccessFilter(licenseFinder), BearerTokenAuthenticationFilter::class.java)
+        return http.build()
+    }
+
+    @Bean
     fun web(http: HttpSecurity): SecurityFilterChain {
         default(http)
             .securityMatchers { matcher: RequestMatcherConfigurer -> matcher.requestMatchers("/api/**") }
@@ -45,20 +70,6 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.POST, "/api/v1/member").permitAll()
                     .anyRequest().authenticated()
             }
-        return http.build()
-    }
-
-    @Bean
-    @Order(Int.MIN_VALUE)
-    fun siteSecurity(http: HttpSecurity): SecurityFilterChain {
-        default(http)
-            .securityMatchers { matcher: RequestMatcherConfigurer -> matcher.requestMatchers("/api/*/site/**") }
-            .authorizeHttpRequests {
-                it
-                    .requestMatchers("/api/v1/site/**").hasAuthority(Permission.SITE_ACCESS.roleName)
-                    .anyRequest().authenticated()
-            }
-            .addFilterAfter(SiteAccessFilter(licenseFinder), BearerTokenAuthenticationFilter::class.java)
         return http.build()
     }
 

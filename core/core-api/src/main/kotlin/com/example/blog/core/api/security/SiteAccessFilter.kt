@@ -38,7 +38,6 @@ class SiteAccessFilter(
                 log.info { "authentication: ${newAuthorities.map { it.authority }}" }
             }
         }
-
         filterChain.doFilter(request, response)
     }
 }

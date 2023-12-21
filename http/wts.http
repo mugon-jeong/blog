@@ -1,0 +1,9 @@
+@siteId=018c8a91-8d9e-6d6d-0c52-304adce65ecc
+### wts 생성
+POST {{host}}/api/v1/site/{{siteId}}/wts
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "name"
+}
