@@ -1,6 +1,5 @@
 package com.example.blog.core.api.security
 
-import com.example.blog.core.domain.license.LicenseFinder
 import com.example.blog.core.enums.Permission
 import com.nimbusds.jose.jwk.source.ImmutableSecret
 import com.nimbusds.jose.jwk.source.JWKSource
@@ -8,6 +7,7 @@ import com.nimbusds.jose.proc.SecurityContext
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.annotation.Order
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity.RequestMatcherConfigurer
@@ -32,35 +32,10 @@ import javax.crypto.spec.SecretKeySpec
 class SecurityConfig(
     @Value("\${jwt.secret}")
     var jwtSecretKey: String,
-    private val licenseFinder: LicenseFinder,
+    private val siteAccessService: SiteAccessService,
 ) {
     @Bean
-    fun siteSecurity(http: HttpSecurity): SecurityFilterChain {
-        default(http)
-            .securityMatchers { matcher: RequestMatcherConfigurer -> matcher.requestMatchers("/api/*/site/*/wts") }
-            .authorizeHttpRequests {
-                it
-                    .requestMatchers("/api/v1/site/**").hasAuthority(Permission.SITE_ACCESS.roleName)
-                    .anyRequest().authenticated()
-            }
-            .addFilterAfter(SiteAccessFilter(licenseFinder), BearerTokenAuthenticationFilter::class.java)
-        return http.build()
-    }
-
-    @Bean
-    fun moduleSecurity(http: HttpSecurity): SecurityFilterChain {
-        default(http)
-            .securityMatchers { matcher: RequestMatcherConfigurer -> matcher.requestMatchers("/api/*/site/**") }
-            .authorizeHttpRequests {
-                it
-                    .requestMatchers("/api/v1/site/**").hasAuthority(Permission.SITE_ACCESS.roleName)
-                    .anyRequest().authenticated()
-            }
-            .addFilterAfter(SiteAccessFilter(licenseFinder), BearerTokenAuthenticationFilter::class.java)
-        return http.build()
-    }
-
-    @Bean
+    @Order(3)
     fun web(http: HttpSecurity): SecurityFilterChain {
         default(http)
             .securityMatchers { matcher: RequestMatcherConfigurer -> matcher.requestMatchers("/api/**") }
@@ -68,8 +43,12 @@ class SecurityConfig(
                 it.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                     .requestMatchers("/api/v1/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/v1/member").permitAll()
+                    .requestMatchers("/api/v1/site/**").hasAuthority(Permission.SITE_ACCESS.roleName)
+                    .requestMatchers(HttpMethod.POST, "/api/v1/site/**/wts").hasAuthority(Permission.SITE_ACCESS.roleName)
+                    .requestMatchers("/api/v1/site/**/wts/**").hasAuthority(Permission.SITE_OWNER.roleName)
                     .anyRequest().authenticated()
             }
+            .addFilterAfter(SiteAccessFilter(siteAccessService), BearerTokenAuthenticationFilter::class.java)
         return http.build()
     }
 
