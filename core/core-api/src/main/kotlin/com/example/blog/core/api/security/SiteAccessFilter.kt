@@ -33,8 +33,10 @@ class SiteAccessFilter(
         ) {
             val authorities = authentication.authorities.toMutableList()
             if (siteId == null) {
+                // 라이센스가 있으면 site_access 부여
                 addSiteAccessAuthorityIfLicenseExists(authorities, authentication.id)
             } else {
+                // 현장 소유자이면 SITE_OWNER 부여
                 addSiteAccessAndOwnerAuthoritiesIfOwner(authorities, siteId, authentication.id)
             }
             updateAuthentication(authentication, authorities)
@@ -75,9 +77,12 @@ class SiteAccessFilter(
         authentication: MemberJwtToken,
         newAuthorities: List<GrantedAuthority>,
     ) {
+        SecurityContextHolder.clearContext()
         val newAuthentication = MemberJwtToken(authentication.id, authentication.token, newAuthorities)
+        val createEmptyContext = SecurityContextHolder.createEmptyContext()
+        SecurityContextHolder.setContext(createEmptyContext)
         SecurityContextHolder.getContext().authentication = newAuthentication
-        log.info { "authentication: ${newAuthorities.map { it.authority }}" }
+        log.info { "authentication: ${SecurityContextHolder.getContext().authentication.authorities.map { it.authority }}" }
     }
 }
 

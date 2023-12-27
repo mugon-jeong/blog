@@ -41,7 +41,7 @@ class SecurityConfig(
         RoleHierarchyImpl().apply { // Optional
             setHierarchy("ADMIN > SITE_OWNER")
             setHierarchy("SITE_OWNER > SITE_ACCESS")
-            setHierarchy("USER = SITE_ACCESS")
+            setHierarchy("SITE_ACCESS > USER")
         }
 
     @Bean
@@ -60,8 +60,8 @@ class SecurityConfig(
                     .requestMatchers("/api/v1/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/v1/member").permitAll()
                     .requestMatchers("/api/v1/site/**").hasAuthority(Permission.SITE_ACCESS.roleName)
-                    .requestMatchers(HttpMethod.POST, "/api/v1/site/**/wts").hasAuthority(Permission.SITE_ACCESS.roleName)
-                    .requestMatchers("/api/v1/site/**/wts/**").hasAuthority(Permission.SITE_OWNER.roleName)
+                    .requestMatchers(HttpMethod.POST, "/api/v1/site/*/wts").hasAuthority(Permission.SITE_ACCESS.roleName)
+                    .requestMatchers("/api/v1/site/*/wts/**").hasAuthority(Permission.SITE_OWNER.roleName)
                     .anyRequest().authenticated()
             }
             .addFilterAfter(SiteAccessFilter(siteAccessService), BearerTokenAuthenticationFilter::class.java)
